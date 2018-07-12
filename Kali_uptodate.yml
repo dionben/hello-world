@@ -1,0 +1,35 @@
+---
+
+- name: Kali uptodate houden
+  hosts: kali
+  become: yes
+  become_method: sudo
+  gather_facts: no  
+  
+  tasks:
+    -   name: Run the equivalent of "apt-get update" as a separate step
+        # become: yes
+        # become_method: sudo
+        apt:
+            update_cache: yes
+
+    -   name: Upgrade all packages to the latest version
+        # become: yes
+        # become_method: sudo
+        apt:
+            # force_apt_get: yes
+            # update_cache: yes
+            # autoclean: yes
+            name: "*"
+            
+    -   name: Remove useless packages from the cache
+        # become: yes
+        # become_method: sudo
+        apt:
+            autoclean: yes
+
+    -   name: Remove dependencies that are no longer required
+        # become: yes
+        # become_method: sudo
+        apt:
+            autoremove: yes
