@@ -1,0 +1,17 @@
+---
+
+- hosts: localhost
+  vars:
+    nios_provider:
+        host: 
+        username: 
+        password: 
+
+  connection: local
+  tasks:
+   - name: delete host record
+     nios_host_record:
+       name: host.ansiblezone.umcn.nl
+       view: Internal
+       state: absent
+       provider: "{{ nios_provider }}"
