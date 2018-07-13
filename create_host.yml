@@ -3,9 +3,9 @@
 - hosts: all
   vars:
     nios_provider:
-      host: "{{ inventory_hostname }}"
-        username: "{{ TACACS_username }}"
-        password: "{{ TACACS_password }}"
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ TACACS_username }}"
+      password: "{{ TACACS_password }}"
 
   connection: local
   tasks:
