@@ -1,13 +1,13 @@
 ---
-
-- hosts: localhost
+- hosts: Infoblox
   vars:
     nios_provider:
-        host: 
-        username: 
-        password: 
-
+      host: "{{ inventory_hostname }}"
+        username: "{{ TACACS_username }}"
+        password: "{{ TACACS_password }}"
   connection: local
+  gather_facts: no
+
   tasks:
    - name: delete host record
      nios_host_record:

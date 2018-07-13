@@ -4,10 +4,11 @@
   vars:
     nios_provider:
       hostname: "{{ inventory_hostname }}"
-      username: "{{ TACACS_username }}"
-      password: "{{ TACACS_password }}"
-
+        username: "{{ TACACS_username }}"
+        password: "{{ TACACS_password }}"
   connection: local
+  gather_facts: no
+  
   tasks:
    - name: create host record
      nios_host_record:
