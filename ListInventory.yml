@@ -1,0 +1,14 @@
+- hosts: all
+
+  tasks:
+    - name: Create a group of all hosts by app_type
+      group_by: key={{app_type}}
+
+    - debug: msg="groups={{groups}}"
+      run_once: true
+
+- hosts: web:&some_other_group
+
+  tasks:
+   - debug: msg="play_hosts={{play_hosts}}"
+     run_once: true
