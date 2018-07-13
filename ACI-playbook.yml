@@ -7,7 +7,7 @@
   
   tasks:
     - name: TASK 1 - GATHER TENANTS
-      TACACS_tenant:
+      aci_tenant:
         hostname: "{{ inventory_hostname }}"
         username: "{{ TACACS_username }}"
         password: "{{ TACACS_password }}"
@@ -15,7 +15,7 @@
         state: query
      
     - name: TASK 2 - GATHER APs
-      TACACS_ap:
+      aci_ap:
         hostname: "{{ inventory_hostname }}"
         username: "{{ TACACS_username }}"
         password: "{{ TACACS_password }}"
@@ -23,7 +23,7 @@
         state: query
     
     - name: TASK 3 - GATHER EPGS
-      TACACS_epg:
+      aci_epg:
         hostname: "{{ inventory_hostname }}"
         username: "{{ TACACS_username }}"
         password: "{{ TACACS_password }}"
