@@ -7,26 +7,26 @@
   
   tasks:
     - name: TASK 1 - GATHER TENANTS
-      aci_tenant:
+      TACACS_tenant:
         hostname: "{{ inventory_hostname }}"
-        username: "{{ aci_username }}"
-        password: "{{ aci_password }}"
+        username: "{{ TACACS_username }}"
+        password: "{{ TACACS_password }}"
         validate_certs: no
         state: query
      
     - name: TASK 2 - GATHER APs
-      aci_ap:
+      TACACS_ap:
         hostname: "{{ inventory_hostname }}"
-        username: "{{ aci_username }}"
-        password: "{{ aci_password }}"
+        username: "{{ TACACS_username }}"
+        password: "{{ TACACS_password }}"
         validate_certs: no
         state: query
     
     - name: TASK 3 - GATHER EPGS
-      aci_epg:
+      TACACS_epg:
         hostname: "{{ inventory_hostname }}"
-        username: "{{ aci_username }}"
-        password: "{{ aci_password }}"
+        username: "{{ TACACS_username }}"
+        password: "{{ TACACS_password }}"
         validate_certs: no
         ap: app-v
         state: query
