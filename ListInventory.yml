@@ -6,7 +6,7 @@
     - debug: msg="groups={{groups}}"
       run_once: true
 
-- hosts: web:&some_other_group
+- hosts: all
   connection: local   
   gather_facts: no
 
