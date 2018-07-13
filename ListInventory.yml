@@ -1,4 +1,5 @@
 - hosts: all
+  connection: local  
 
   tasks:
     - name: Create a group of all hosts by app_type
