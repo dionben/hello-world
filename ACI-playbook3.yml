@@ -9,8 +9,8 @@
     - name: TASK 1 - List of APP profiles for tenants
       aci_ap:
         hostname: "{{ inventory_hostname }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
         validate_certs: no
         state: query
       register: prod_ap
@@ -23,8 +23,8 @@
     - name: TASK 3 - List of AP profiles for tenants
       aci_epg:
         hostname: "{{ inventory_hostname }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
         validate_certs: no
         ap: "{{ item }}"
         tenant: datacenter
