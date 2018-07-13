@@ -9,6 +9,8 @@
       run_once: true
 
 - hosts: web:&some_other_group
+  connection: local   
+
 
   tasks:
    - debug: msg="play_hosts={{play_hosts}}"
