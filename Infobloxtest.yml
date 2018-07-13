@@ -13,7 +13,7 @@
   gather_facts: no
   
   tasks:
-   - name:debug
+   - name: debug
      debug: var=network
    - name: Gather info
      set_fact:
