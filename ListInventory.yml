@@ -2,7 +2,7 @@
   connection: local  
 
   tasks:
-    - name: Create a group of all hosts by app_type
+    - name: Create a group of all hosts
       # group_by: key={{app_type}}
 
     - debug: msg="groups={{groups}}"
