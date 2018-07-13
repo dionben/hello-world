@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: Infoblox
   vars:
     nios_provider:
       hostname: "{{ inventory_hostname }}"
