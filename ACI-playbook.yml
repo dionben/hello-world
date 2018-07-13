@@ -1,7 +1,7 @@
 ---
 
 - name: PLAY 1
-  hosts: apic
+  hosts: ACI
   connection: local
   gather_facts: no
   
