@@ -3,7 +3,7 @@
 
   tasks:
     - name: Create a group of all hosts by app_type
-      group_by: key={{app_type}}
+      # group_by: key={{app_type}}
 
     - debug: msg="groups={{groups}}"
       run_once: true
