@@ -4,8 +4,8 @@
   vars:
     nios_provider:
       host: "{{ inventory_hostname }}"
-        username: "{{ TACACS_username }}"
-        password: "{{ TACACS_password }}"
+      username: "{{ TACACS_username }}"
+      password: "{{ TACACS_password }}"
   connection: local
   gather_facts: no
   
