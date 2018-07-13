@@ -1,6 +1,6 @@
 ---
 
-- hosts: masterblox.man.umcn.nl
+- hosts: all
   vars:
     nios_provider:
       host: "{{ inventory_hostname }}"
