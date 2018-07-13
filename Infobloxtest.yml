@@ -1,0 +1,29 @@
+---
+
+- hosts: Infoblox
+  vars:
+    nios_provider:
+      host: "{{ inventory_hostname }}"
+      username: "{{ TACACS_username }}"
+      password: "{{ TACACS_password }}"
+  connection: local
+  gather_facts: no
+  
+  tasks:
+   - name: Gather info
+     set_fact:
+        # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=3, exclude=['10.0.0.39'],provider=nios_provider) }}"
+        net: "{{ lookup('nios_next_network', '10.11.0.0/16', cidr=29,num=5, provider=nios_provider) }}"
+        host:  "{{ lookup('nios', 'record:host', filter={'name': 'umcinfrabep02.umcn.nl'}, provider=nios_provider) }}"
+        # mac:   "{{ host | json_query('ipaddrs[0].mac') }}"
+   - name: Gather info
+     set_fact:
+        # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', provider=nios_provider)[0] }}"
+        # host:  "{{ lookup('nios', 'record:host', filter={'name': 'umcinfrabep02.umcn.nl'}, provider=nios_provider) }}"
+        mac:   "{{ host | json_query('ipv4addrs[0].mac') }}"
+   - name: Print info
+     # debug: var=ipv4addr
+     debug: var=host
+   - name: Print info
+     # debug: var=ipv4addr
+     debug: var=mac
