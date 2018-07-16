@@ -2,7 +2,7 @@
 
 - hosts: Infoblox
   vars:
-    cidr: {{ cidr | int }}
+    cidr: "{{ [cidr | int] }}"
     num: "{{ num }}"
     network: "{{ network }}"
     nios_provider:
