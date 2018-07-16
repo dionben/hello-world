@@ -2,9 +2,9 @@
 
 - hosts: Infoblox
   vars:
-    cidrr: "{{ cidr | int }}"
-    num: "{{ num }}"
-    network: "{{ network }}"
+    cidr: "{{ var_cidr }}"
+    num: "{{ var_num }}"
+    network: "{{ var_network }}"
     nios_provider:
       host: "{{ inventory_hostname }}"
       username: "{{ TACACS_username }}"
@@ -18,7 +18,7 @@
    - name: Gather info
      set_fact:
         # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=3, exclude=['10.0.0.39'],provider=nios_provider) }}"
-        net: "{{ lookup('nios_next_network', network, cidr=cidrr, num=num, provider=nios_provider) }}"
+        net: "{{ lookup('nios_next_network', network, cidr=int(cidr), num=num, provider=nios_provider) }}"
         host:  "{{ lookup('nios', 'record:host', filter={'name': 'umcinfrabep02.umcn.nl'}, provider=nios_provider) }}"
         # mac:   "{{ host | json_query('ipaddrs[0].mac') }}"
    - name: Gather info
