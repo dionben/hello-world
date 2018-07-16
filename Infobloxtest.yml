@@ -5,7 +5,7 @@
     cidr: "{{ var_cidr }}"
     num: "{{ var_num }}"
     network: "{{ var_network }}"
-    nios_provider:
+    nios_provider: 
       host: "{{ inventory_hostname }}"
       username: "{{ TACACS_username }}"
       password: "{{ TACACS_password }}"
