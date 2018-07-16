@@ -13,8 +13,7 @@
   gather_facts: no
   
   tasks:
-   - name: debug
-     debug: var=cidr
+   - debug: var=cidr
    - name: Gather info
      set_fact:
         # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=3, exclude=['10.0.0.39'],provider=nios_provider) }}"
