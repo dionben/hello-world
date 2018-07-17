@@ -16,7 +16,7 @@
   tasks:
    - debug: var={{ test | type_debug }}
    - set_fact:
-        test: {{test| int}}
+        test: "{{test| int}}"
    - debug: var={{ test | type_debug }}
    - name: Gather info
      set_fact:
