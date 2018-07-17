@@ -4,6 +4,7 @@
   vars:
     cidr: "{{ var_cidr }}"
     num: "{{ var_num }}"
+    test: "1"
     network: "{{ var_network }}"
     nios_provider:
       host: "{{ inventory_hostname }}"
@@ -13,7 +14,10 @@
   gather_facts: no
   
   tasks:
-   - debug: var={{ cidr | type_debug }}
+   - debug: var={{ test | type_debug }}
+   - set_fact:
+        test: {{test| int}}
+   - debug: var={{ test | type_debug }}
    - name: Gather info
      set_fact:
         # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=3, exclude=['10.0.0.39'],provider=nios_provider) }}"
