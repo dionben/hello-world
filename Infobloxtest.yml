@@ -16,8 +16,8 @@
   tasks:
    - debug: var={{ test | type_debug }}
    - set_fact:
-        test: "{{test| int}}"
-   - debug: var={{ test | type_debug }}
+        test1: "{{test| int}}"
+   - debug: var={{ test1 | type_debug }}
    - name: Gather info
      set_fact:
         # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=3, exclude=['10.0.0.39'],provider=nios_provider) }}"
