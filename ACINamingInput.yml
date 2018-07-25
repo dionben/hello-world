@@ -17,6 +17,7 @@
 
    - debug: var=var_AppDesc
    - debug: var=var_Domain
+   - debug: var=Domain
    - debug: var=var_Tier
    - debug: var=var_TAP
    - debug: var=var_PhysVirt
