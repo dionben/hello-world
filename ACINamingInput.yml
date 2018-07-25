@@ -19,7 +19,7 @@
    - debug: var=var_PhysVirt
    - set_fact:
         Virtual: True
-     when: var_PhysVirt | search("Virtual")
+     when: '"Virtual" in var_PhysVirt'
    - debug: var=Virtual
    - debug: var=var_L2Vlan
 
