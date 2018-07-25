@@ -20,7 +20,11 @@
    - set_fact:
         Virtual: True
      when: '"Virtual" in var_PhysVirt'
+   - set_fact:
+        Physical: True
+     when: '"Physical" in var_PhysVirt'
    - debug: var=Virtual
+   - debug: var=Physical
    - debug: var=var_L2Vlan
 
 
