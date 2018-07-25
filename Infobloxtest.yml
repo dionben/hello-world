@@ -2,7 +2,7 @@
 
 - hosts: Infoblox
   vars:
-    cidr: "{{ var_cidr }}"
+    cidr: "{{ var_cidr | regex_replace('\|.*$','') }}"
     num: "{{ var_num }}"
     test: "1"
     network: "{{ var_network }}"
