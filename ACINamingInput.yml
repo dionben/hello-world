@@ -21,7 +21,7 @@
         Virtual: True
      when: var_PhysVirt | search("Virtual")
    - debug: var=Virtual
-     - debug: var=var_L2Vlan
+   - debug: var=var_L2Vlan
 
 
      
