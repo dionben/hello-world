@@ -8,6 +8,7 @@
     test: "1"
     Virtual: False
     Physical: False
+    Domain: "{{ var_Domain | regex_replace('-.*$','') | trim }}"
   connection: local
   gather_facts: no
   
@@ -35,7 +36,7 @@
           (var_L2Vlan is none)
           or
           (var_L2Vlan | trim == ''))
-          and (var_Domain == 'Oud L2')
+          and (Domain == 'Oud L2')
         )
 
      
