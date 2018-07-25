@@ -1,0 +1,36 @@
+---
+
+- hosts: localhost
+  vars:
+    cidr: "{{ var_cidr | regex_replace('-.*$','') }}"
+    num: "{{ var_num }}"
+    network: "{{ var_network }}"
+    test: "1"
+  connection: local
+  gather_facts: no
+  
+  tasks:
+   - debug: var=var_AppName
+
+   - debug: var=var_AppDesc
+   - debug: var=var_Domain
+   - debug: var=var_Tier
+   - debug: var=var_TAP
+   - debug: var=var_PhysVirt
+   - set_fact:
+        Virtual: True
+     when: var_PhysVirt | search("Virtual")
+   - debug: var=Virtual
+     - debug: var=var_L2Vlan
+
+
+     
+# Applicatie Naam           = var_AppName
+# Applicatie Omschrijving   = var_AppDesc
+# Domein                    = var_Domain
+# Type                      = var_Tier
+# Omgeving                  = var_TAP
+# Gateway IP
+# NetMask
+# Virtueel/Fysiek           = var_PhysVirt
+# VLAN L2                   = var_L2Vlan
