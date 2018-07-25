@@ -9,6 +9,7 @@
     Virtual: False
     Physical: False
     Domain: "{{ var_Domain | regex_replace('-.*$','') | trim }}"
+    Tier: "{{ var_Tier | regex_replace('-.*$','') | trim }}"
   connection: local
   gather_facts: no
   
@@ -19,6 +20,7 @@
    - debug: var=var_Domain
    - debug: var=Domain
    - debug: var=var_Tier
+   - debug: var=Tier
    - debug: var=var_TAP
    - debug: var=var_PhysVirt
    - set_fact:
