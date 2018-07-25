@@ -28,7 +28,15 @@
    - debug: var=Virtual
    - debug: var=Physical
    - debug: var=var_L2Vlan
-
+   - fail:
+     when: not(
+          ((var_L2Vlan is undefined)
+          or
+          (var_L2Vlan is none)
+          or
+          (var_L2Vlan | trim == ''))
+          and (var_Domain == 'Oud L2')
+        )
 
      
 # Applicatie Naam           = var_AppName
