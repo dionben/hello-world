@@ -6,6 +6,8 @@
     num: "{{ var_num }}"
     network: "{{ var_network }}"
     test: "1"
+    Virtual: False
+    Physical: False
   connection: local
   gather_facts: no
   
