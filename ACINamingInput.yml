@@ -29,7 +29,7 @@
    - debug: var=Physical
    - debug: var=var_L2Vlan
    - fail:
-     when: not(
+     when: (
           ((var_L2Vlan is undefined)
           or
           (var_L2Vlan is none)
