@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  vars:
+    cidr: "{{ stat_cidr }}"
+  connection: local
+  gather_facts: no
+  
+  tasks:
+
+   - debug: var=cidr
+   - debug: var=stat_cidr
+
