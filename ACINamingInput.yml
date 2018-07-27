@@ -74,8 +74,8 @@
    - debug: var=net.split()
    - debug: var=net.split()|first
    - set_fact:
-        CIDR:"{{ 32 - net.split()|first|int }}
-   - debug: var=CIDR
+        cidr: "{{ 32 - net.split()|first|int }}"
+   - debug: var=cidr
    - debug: var=net.split()[0]|int
 # Applicatie Naam           = var_AppName
 # Applicatie Omschrijving   = var_AppDesc
