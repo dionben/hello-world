@@ -70,10 +70,12 @@
    - debug: var=num_hosts
    - set_fact:
           net: "{%for po2 in range(3,12)%}{{ po2 if (2|pow(po2)|int>=num_hosts|int) else None }} {%endfor%}"
+   - debug: var=net
    - debug: var=net.split()
-   - debug: var=net.split()|min
-   - debug: var=net.split()|max
    - debug: var=net.split()|first
+   - set_fact:
+        CIDR:"{{ 32 - net.split()|first|int }}
+   - debug: var=CIDR
    - debug: var=net.split()[0]|int
 # Applicatie Naam           = var_AppName
 # Applicatie Omschrijving   = var_AppDesc
