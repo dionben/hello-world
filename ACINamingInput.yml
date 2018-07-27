@@ -20,10 +20,25 @@
    - debug: var=var_AppDesc
    - debug: var=var_Domain
    - debug: var=Domain
+
+   - set_fact:
+        DMZ: "{{ True if ((Domain=='exid.umcn.nl') or (Domain=='exidtest.umcn.nl')) else False }}"
+   - debug: var=DMZ
+
+   - set_fact:
+        Omgeving: "{{ 'prd' if ((Domain=='exid.umcn.nl') or (Domain=='Oud L2' ) or (Domain=='umcn.nl')) else 'tst' }}"
+
+   - debug: var=Omgeving
+   - set_fact:
+        L2: "{{ True if ((Domain=='Oud L2') or DMZ ) else False }}"
+
+   - debug: var=L2
+   
    - debug: var=var_Tier
    - debug: var=Tier
    - debug: var=var_TAP
    - debug: var=var_PhysVirt
+
    - set_fact:
         Virtual: True
      when: '"Virtual" in var_PhysVirt'
@@ -32,8 +47,10 @@
      when: '"Physical" in var_PhysVirt'
    - debug: var=Virtual
    - debug: var=Physical
+
    - debug: var=var_L2Vlan
    - fail:
+       msg: "Domein \"Oud L2\" geselecteerd maar geen VLAN ID meegegeven!"
      when: (
           ((var_L2Vlan is undefined)
           or
