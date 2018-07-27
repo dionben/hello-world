@@ -16,6 +16,9 @@
   
   tasks:
    - debug: var=var_AppName
+   - fail:
+       msg: "Applicatie naam mag geen spatie bevatten!!"
+     when: not ( var_AppName.split()|length==1 )
 
    - debug: var=var_AppDesc
    - debug: var=var_Domain
