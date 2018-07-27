@@ -6,6 +6,7 @@
     num: "{{ var_num }}"
     network: "{{ var_network }}"
     test: "1"
+    
     Virtual: False
     Physical: False
     Domain: "{{ var_Domain | regex_replace('-.*$','') | trim }}"
@@ -41,8 +42,22 @@
           (var_L2Vlan | trim == ''))
           and (Domain == 'Oud L2')
         )
-
-     
+   - debug: var=var_Hosts
+   - set_fact:
+        net_overhead: "{{5 if DMZ else 3 }}"
+   - debug: var=net_overhead
+   - debug: var=networks
+   
+   - set_fact:
+        num_hosts: "{{var_Hosts|int + net_overhead |int }}"
+   - debug: var=num_hosts
+   - set_fact:
+          net: "{%for po2 in range(3,12)%}{{ po2 if (2|pow(po2)|int>=num_hosts|int) else None }} {%endfor%}"
+   - debug: var=net.split()
+   - debug: var=net.split()|min
+   - debug: var=net.split()|max
+   - debug: var=net.split()|first
+   - debug: var=net.split()[0]|int
 # Applicatie Naam           = var_AppName
 # Applicatie Omschrijving   = var_AppDesc
 # Domein                    = var_Domain
