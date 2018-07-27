@@ -10,7 +10,7 @@
     Virtual: False
     Physical: False
     Domain: "{{ var_Domain | regex_replace('-.*$','') | trim }}"
-    Tier: "{{ var_Tier | regex_replace('*.-$','') | trim }}"
+    Tier: "{{ var_Tier | regex_replace('^[^-]*-','') | trim }}"
   connection: local
   gather_facts: no
   
