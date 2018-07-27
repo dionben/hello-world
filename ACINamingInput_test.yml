@@ -80,8 +80,4 @@
         cidr: "{{ 32 - net.split()|first|int }}"
    - debug: var=cidr
    - debug: var=net.split()[0]|int
-   - set_stats:
-        data:
-            stat_cidr=net.split()[0]|int
-   - debug: var=stat_cidr
 
