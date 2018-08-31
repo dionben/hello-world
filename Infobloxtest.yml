@@ -20,11 +20,12 @@
    - debug: var={{ test1 | type_debug }}
    - name: Gather info
      set_fact:
-        # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=3, exclude=['10.0.0.39'],provider=nios_provider) }}"
+        ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', num=num|int, exclude=['10.0.0.39'],provider=nios_provider) }}"
         net: "{{ lookup('nios_next_network', network, cidr=cidr|int, num=num|int, provider=nios_provider) }}"
         host:  "{{ lookup('nios', 'record:host', filter={'name': 'umcinfrabep02.umcn.nl'}, provider=nios_provider) }}"
         # mac:   "{{ host | json_query('ipaddrs[0].mac') }}"
    - debug: var=net
+   - debug: var=ipv4addr
    - name: Gather info
      set_fact:
         # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', provider=nios_provider)[0] }}"
