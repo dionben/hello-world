@@ -24,6 +24,7 @@
         net: "{{ lookup('nios_next_network', network, cidr=cidr|int, num=num|int, provider=nios_provider) }}"
         host:  "{{ lookup('nios', 'record:host', filter={'name': 'umcinfrabep02.umcn.nl'}, provider=nios_provider) }}"
         # mac:   "{{ host | json_query('ipaddrs[0].mac') }}"
+   - debug: var=net
    - name: Gather info
      set_fact:
         # ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/23', provider=nios_provider)[0] }}"
