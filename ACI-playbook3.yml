@@ -81,7 +81,7 @@
         pod_id: 1
         encap_id: 594
         deploy_immediacy: lazy
-        state: query
+        state: present
       delegate_to: localhost
         
     # - name: "Display all ports from cluster1"
