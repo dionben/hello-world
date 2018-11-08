@@ -63,7 +63,7 @@
         var: item
       loop: "{{ prod_apps | json_query(server_name_cluster1_query) }}"
       vars:
-        server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.{children[*].fvAEPg.attributes.{name: name, descr: desrc}"
+        server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.{name: name, descr: desrc}"
 
 
         # server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.{children[*].fvAEPg.attributes.name: APname, children[*].fvAEPg.attributes.name: EPGname }"
