@@ -45,12 +45,16 @@
     - name: TASK 2 - Create list of just APP names
       set_fact:
         #apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
-        apps: "{{ prod_apps | json_query('current[0].fvAp.attributes.name') }}"
+        apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
         #epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
         #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
         # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
-        epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
-        
+        epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
+
+    - name: test 2 test
+      debug: var=apps
+
+      
     - name: TASK 2 debug
       debug: var=epgs
     
