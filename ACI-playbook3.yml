@@ -73,14 +73,20 @@
         password: "{{ aci_password }}"
         validate_certs: no
         tenant: datacenter
-        ap: vlan-as-ep
-        epg: epg_vlan16
-        leafs: 108
-        output_level: info
-        # interface: leaf102_105_switch_ports_1-ports-46_PolGrp
-        interface: 1/1
-        # interface_type: vpc
+        ap: wec
+        epg: tst-dmz
+        leafs: 102-105
+        output_level: debug
         state: query
+        # tenant: datacenter
+        # ap: vlan-as-ep
+        # epg: epg_vlan16
+        # leafs: 108
+        # output_level: info
+        # # interface: leaf102_105_switch_ports_1-ports-46_PolGrp
+        # interface: 1/1
+        # # interface_type: vpc
+        # state: query
         
     # - name: "Display all ports from cluster1"
       # # debug:
