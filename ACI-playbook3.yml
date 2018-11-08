@@ -76,6 +76,7 @@
         ap: xitowst01
         epg: tst-dmz
         leafs: 105
+        output_level: debug
         state: query
         
     # - name: "Display all ports from cluster1"
