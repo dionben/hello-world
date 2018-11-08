@@ -73,9 +73,9 @@
         password: "{{ aci_password }}"
         validate_certs: no
         tenant: datacenter
-        ap: xitowst01
+        ap: wec
         epg: tst-dmz
-        leafs: 105
+        leafs: 102-105
         output_level: debug
         state: query
         
