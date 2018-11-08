@@ -87,6 +87,7 @@
         # interface: 1/1
         # # interface_type: vpc
         # state: query
+      delegate_to: localhost
         
     # - name: "Display all ports from cluster1"
       # # debug:
