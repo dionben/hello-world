@@ -75,6 +75,7 @@
         tenant: datacenter
         ap: xitowst01
         epg: tst-dmz
+        leafs: 105
         state: query
         
     # - name: "Display all ports from cluster1"
