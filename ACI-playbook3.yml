@@ -76,6 +76,7 @@
         ap: wec
         epg: tst-dmz
         leafs: [102, 105]
+        interface_type: vpc
         # output_level: debug
         state: query
         # tenant: datacenter
