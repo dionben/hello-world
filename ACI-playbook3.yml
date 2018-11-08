@@ -49,7 +49,7 @@
         #epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
         #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
         # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
-        epgs: "{{prod_apps | json_query('result.current[0].fvTenant.attributes.name') }}"
+        epgs: "{{ prod_apps | json_query('current[0].fvTenant.attributes.name') }}"
         
     - name: TASK 2 debug
       debug: var=epgs
