@@ -76,6 +76,7 @@
         ap: wec
         epg: tst-dmz
         leafs: 102-105
+        interface: leaf102_105_switch_ports_1-ports-46_PolGrp
         output_level: debug
         state: query
         
