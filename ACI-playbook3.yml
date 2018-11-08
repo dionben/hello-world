@@ -75,7 +75,7 @@
         tenant: datacenter
         ap: wec
         epg: tst-dmz
-        leafs: 105
+        leafs: [102, 105]
         # output_level: debug
         state: query
         # tenant: datacenter
