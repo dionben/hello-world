@@ -58,15 +58,24 @@
     - name: TASK 2 debug
       debug: var=epgs
     
-    - name: "Display all ports from cluster1"
-      debug:
-        var: item
-      loop: "{{ prod_apps | json_query(server_name_cluster1_query) }}"
-      vars:
-        # server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.{name1: name, descr: desrc}"
-        server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }"
+    - name: epg-to-domain
+      aci_epg_to_domain:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        state: query
         
-            # server_name_cluster1_query: "domain.server[?cluster=='cluster2'].{name: name, port: port}"
+    # - name: "Display all ports from cluster1"
+      # # debug:
+        # # var: item
+      # set_fact: item
+      # loop: "{{ prod_apps | json_query(server_name_cluster1_query) }}"
+      # vars:
+        # # server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.{name1: name, descr: desrc}"
+        # server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }"
+        
+            # # server_name_cluster1_query: "domain.server[?cluster=='cluster2'].{name: name, port: port}"
     # - name: test 2 test
       # debug: var=prod_apps
       
