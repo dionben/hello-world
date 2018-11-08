@@ -65,6 +65,14 @@
         password: "{{ aci_password }}"
         validate_certs: no
         state: query
+
+    - name: aci_static_binding_to_epg
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        state: query
         
     # - name: "Display all ports from cluster1"
       # # debug:
