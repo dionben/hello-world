@@ -76,6 +76,7 @@
         ap: wec
         epg: tst-dmz
         leafs: 102
+        output_level: info
         interface: leaf102_105_switch_ports_1-ports-46_PolGrp
         # interface_type: vpc
         state: query
