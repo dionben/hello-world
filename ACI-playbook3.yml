@@ -73,11 +73,12 @@
         password: "{{ aci_password }}"
         validate_certs: no
         tenant: datacenter
-        ap: wec
-        epg: tst-dmz
-        leafs: 102
+        ap: vlan-as-ep
+        epg: epg_vlan16
+        leafs: 108
         output_level: info
-        interface: leaf102_105_switch_ports_1-ports-46_PolGrp
+        # interface: leaf102_105_switch_ports_1-ports-46_PolGrp
+        interface: 1/1
         # interface_type: vpc
         state: query
         
