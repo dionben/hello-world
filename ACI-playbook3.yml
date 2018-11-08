@@ -73,21 +73,15 @@
         password: "{{ aci_password }}"
         validate_certs: no
         tenant: datacenter
-        ap: wec
-        epg: tst-dmz
+        ap: diontest2
+        epg: prd-dmz
         leafs: [102, 105]
         interface_type: vpc
-        # output_level: debug
+        interface: 'leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp'
+        pod_id: 1
+        encap_id: 594
+        deploy_immediacy: lazy
         state: query
-        # tenant: datacenter
-        # ap: vlan-as-ep
-        # epg: epg_vlan16
-        # leafs: 108
-        # output_level: info
-        # # interface: leaf102_105_switch_ports_1-ports-46_PolGrp
-        # interface: 1/1
-        # # interface_type: vpc
-        # state: query
       delegate_to: localhost
         
     # - name: "Display all ports from cluster1"
