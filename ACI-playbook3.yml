@@ -88,66 +88,63 @@
     - name: TASK 2 debug
       debug: var=domains
 
-    - name: Block
-      block:
-        - name: add aci_static_binding_to_epg leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp
-          aci_static_binding_to_epg:
-            hostname: "{{ inventory_hostname }}"
-            username: "{{ aci_username }}"
-            password: "{{ aci_password }}"
-            validate_certs: no
-            tenant: "{{ item.tenant }}"
-            ap: "{{ item.ap }}"
-            epg: "{{ item.epg }}"
-            leafs: [102, 105]
-            interface_type: vpc
-            interface: 'leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp'
-            pod_id: 1
-            encap_id: "{{ item.encap_id }}"
-            deploy_immediacy: immediate
-            state: present
-          delegate_to: localhost
-          # with_items: "{{ stuff }}"
-
-        - name: add aci_static_binding_to_epg leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp
-          aci_static_binding_to_epg:
-            hostname: "{{ inventory_hostname }}"
-            username: "{{ aci_username }}"
-            password: "{{ aci_password }}"
-            validate_certs: no
-            tenant: "{{ item.tenant }}"
-            ap: "{{ item.ap }}"
-            epg: "{{ item.epg }}"
-            leafs: [102, 105]
-            interface_type: vpc
-            interface: 'leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp'
-            pod_id: 1
-            encap_id: "{{ item.encap_id }}"
-            deploy_immediacy: immediate
-            state: present
-          delegate_to: localhost
-          # with_items: "{{ stuff }}"
-
-        - name: remove aci_static_binding_to_epg leaf102_105_switch_ports_1-ports-46_PolGrp
-          aci_static_binding_to_epg:
-            hostname: "{{ inventory_hostname }}"
-            username: "{{ aci_username }}"
-            password: "{{ aci_password }}"
-            validate_certs: no
-            tenant: "{{ item.tenant }}"
-            ap: "{{ item.ap }}"
-            epg: "{{ item.epg }}"
-            leafs: [102, 105]
-            interface_type: vpc
-            interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
-            pod_id: 1
-            encap_id: "{{ item.encap_id }}"
-            deploy_immediacy: immediate
-            state: absent
-          delegate_to: localhost
-          # with_items: "{{ stuff }}"
+    - name: add aci_static_binding_to_epg leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: present
+      delegate_to: localhost
       with_items: "{{ stuff }}"
-                
+
+    - name: add aci_static_binding_to_epg leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: present
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+
+    - name: remove aci_static_binding_to_epg leaf102_105_switch_ports_1-ports-46_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: absent
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+            
     # - name: aci_static_binding_to_epg
       # aci_static_binding_to_epg:
         # hostname: "{{ inventory_hostname }}"
