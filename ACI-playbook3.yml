@@ -21,7 +21,7 @@
       
     - name: Print phone records
       debug:
-        msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }}"
+        msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }} EPG:  {{ item.epg }} Encap-VLAN: {{ item.encap_id }} "
       with_items: "{{ stuff }}"
       
     - name: TASK 1 - List of APP profiles for tenants
