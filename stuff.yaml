@@ -1,15 +1,15 @@
-# Employee records
--  martin:
-    name: Martin Devloper
-    job: Developer
-    skills:
-      - python
-      - perl
-      - pascal
--  tabitha:
-    name: Tabitha Bitumen
-    job: Developer
-    skills:
-      - lisp
-      - fortran
-      - erlang
+Employees:
+    -  martin:
+        name: Martin Devloper
+        job: Developer
+        skills:
+          - python
+          - perl
+          - pascal
+    -  tabitha:
+        name: Tabitha Bitumen
+        job: Developer
+        skills:
+          - lisp
+          - fortran
+          - erlang
