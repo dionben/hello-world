@@ -1,4 +1,3 @@
-    {
         "martin": {
             "skills": [
                 "python",
@@ -8,8 +7,8 @@
             "job": "Developer",
             "name": "Martin Devloper"
         }
-    },
-    {
+,
+
         "tabitha": {
             "skills": [
                 "lisp",
@@ -19,4 +18,3 @@
             "job": "Developer",
             "name": "Tabitha Bitumen"
         }
-    }
