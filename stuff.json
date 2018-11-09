@@ -8,15 +8,16 @@
                         "pascal"
                     ],
                     "job": "Developer",
+                    "number": 1,
                     "name": "Martin Devloper"
                 }
             },
             {
                 "tabitha": {
                     "skills": [
-                        "lisp",
-                        "fortran",
-                        "erlang"
+                        lisp,
+                        fortran,
+                        erlang
                     ],
                     "job": "Developer",
                     "name": "Tabitha Bitumen"
