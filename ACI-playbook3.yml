@@ -137,7 +137,7 @@
         pod_id: 1
         encap_id: "{{ item.encap_id }}"
         deploy_immediacy: immediate
-        state: present
+        state: absent
       delegate_to: localhost
       with_items: "{{ stuff }}"
             
