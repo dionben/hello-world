@@ -10,7 +10,11 @@
       include_vars:
         file: stuff.json
         name: stuff
-        
+
+    - name: TASK 2 - Create list of just APP names
+      set_fact:
+        stuff: stuff[0]
+       
     - name: test 2 test
       debug: var=stuff
 
