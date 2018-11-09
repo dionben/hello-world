@@ -21,7 +21,7 @@
       
     - name: Print phone records
       debug:
-        msg: "Tennant: {{ item.tennat }} AP: {{ item.ap }}"
+        msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }}"
       with_items: "{{ stuff }}"
       
     - name: TASK 1 - List of APP profiles for tenants
