@@ -13,7 +13,7 @@
 
     - name: TASK 2 - Create list of just APP names
       set_fact:
-        stuff: "{{ stuff | json_query('stuff.stuffi.Employees[*]') }}"
+        stuff: "{{ stuff | json_query('stuffi.Employees[*]') }}"
        
     - name: test 2 test
       debug: var=stuff
@@ -21,7 +21,7 @@
       
     - name: Print phone records
       debug:
-        msg: "User {{ item.key }}"
+        msg: "User {{ item }}"
       with_items: "{{ stuff }}"
       
     - name: TASK 1 - List of APP profiles for tenants
