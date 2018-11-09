@@ -13,7 +13,7 @@
 
     - name: TASK 2 - Create list of just APP names
       set_fact:
-        stuff: "{{ stuff | json_query('stuffi.Employees[*]') }}"
+        stuff: "{{ stuff | json_query('ACI.DMZEPG[*]') }}"
        
     - name: test 2 test
       debug: var=stuff
