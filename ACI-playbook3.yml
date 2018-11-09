@@ -6,6 +6,11 @@
   gather_facts: no
   
   tasks:
+  
+    - name: Regex
+      debug:
+        msg: "{{ 'localhost:80' | regex_replace('^(?P<host>.+):(?P<port>\\d+)$', '\\g<host>, \\g<port>') }}"
+  
     - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
       include_vars:
         file: stuff.json
