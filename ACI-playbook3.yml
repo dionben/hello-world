@@ -6,6 +6,14 @@
   gather_facts: no
   
   tasks:
+    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+      include_vars:
+        file: stuff.yaml
+        name: stuff
+        
+    - name: test 2 test
+      debug: var=stuff
+      
     - name: TASK 1 - List of APP profiles for tenants
       aci_ap:
         hostname: "{{ inventory_hostname }}"
