@@ -10,7 +10,7 @@
     - name: Regex
       debug:
         # msg: "{{ 'uni/tn-datacenter/ap-vlan-as-epg/epg-epg_vlan701/rspathAtt-[topology/pod-1/paths-120/extpaths-103/pathep-[eth1/13]]' | regex_replace('uni\\/tn-(?P<port>.*)\\/ap-.*', '\\g<port>') }}"
-        msg: "{{ 'uni/tn-datacenter/ap-vlan-as-epg/epg-epg_vlan701/rspathAtt-[topology/pod-1/paths-120/extpaths-103/pathep-[eth1/13]]' | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs', '{ tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg>}') }}"
+        msg: "{{ 'uni/tn-datacenter/ap-vlan-as-epg/epg-epg_vlan701/rspathAtt-[topology/pod-1/paths-120/extpaths-103/pathep-[eth1/13]]' | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '{ tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> }') }}"
   
     - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
       include_vars:
