@@ -13,7 +13,7 @@
 
     - name: TASK 2 - Create list of just APP names
       set_fact:
-        stuff: {{ stuff[0] }}
+        stuff: "{{ stuff[0] }}"
        
     - name: test 2 test
       debug: var=stuff
