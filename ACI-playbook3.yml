@@ -8,7 +8,7 @@
   tasks:
     - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
       include_vars:
-        file: stuff.yaml
+        file: stuff.json
         name: stuff
         
     - name: test 2 test
