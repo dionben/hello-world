@@ -84,7 +84,7 @@
         validate_certs: no
         state: query
 
-    - name: aci_static_binding_to_epg
+    - name: add aci_static_binding_to_epg leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp
       aci_static_binding_to_epg:
         hostname: "{{ inventory_hostname }}"
         username: "{{ aci_username }}"
@@ -102,24 +102,62 @@
         state: present
       delegate_to: localhost
       with_items: "{{ stuff }}"
-        
-    - name: aci_static_binding_to_epg
+
+    - name: add aci_static_binding_to_epg leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp
       aci_static_binding_to_epg:
         hostname: "{{ inventory_hostname }}"
         username: "{{ aci_username }}"
         password: "{{ aci_password }}"
         validate_certs: no
-        tenant: datacenter
-        ap: diontest2
-        epg: prd-dmz
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: present
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+
+    - name: remove aci_static_binding_to_epg leaf102_105_switch_ports_1-ports-46_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
         leafs: [102, 105]
         interface_type: vpc
         interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
         pod_id: 1
-        encap_id: 594
+        encap_id: "{{ item.encap_id }}"
         deploy_immediacy: immediate
-        state: absent
+        state: present
       delegate_to: localhost
+      with_items: "{{ stuff }}"
+            
+    # - name: aci_static_binding_to_epg
+      # aci_static_binding_to_epg:
+        # hostname: "{{ inventory_hostname }}"
+        # username: "{{ aci_username }}"
+        # password: "{{ aci_password }}"
+        # validate_certs: no
+        # tenant: datacenter
+        # ap: diontest2
+        # epg: prd-dmz
+        # leafs: [102, 105]
+        # interface_type: vpc
+        # interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
+        # pod_id: 1
+        # encap_id: 594
+        # deploy_immediacy: immediate
+        # state: absent
+      # delegate_to: localhost
         
     # - name: "Display all ports from cluster1"
       # # debug:
