@@ -17,7 +17,7 @@
       
     - name: Print phone records
       debug:
-        msg: "User {{ item.key }} is {{ item.value.name }} ({{ item.value.telephone }})"
+        msg: "User {{ item.key }}"
       with_dict: "{{ stuff }}"
       
     - name: TASK 1 - List of APP profiles for tenants
