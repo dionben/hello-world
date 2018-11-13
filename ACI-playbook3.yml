@@ -74,7 +74,7 @@
         #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
         # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
         # epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }') }}"
-        epgs: "{{ prod_apps | json_query('current[0].fvTenant.{TenantName: attributes.name, EPG: children[*].fvAp.{ APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }}') }}"
+        epgs: "{{ prod_apps | json_query('current[0].fvTenant.{TenantName: attributes.name, APs: children[*].fvAp.{ APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }}') }}"
 
     - name: test 2 test
       debug: var=apps
