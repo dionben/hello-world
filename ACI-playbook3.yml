@@ -91,7 +91,7 @@
       debug:
         msg: "User {{ item.0 }} is {{ item.1 }} "
       with_subelements: 
-        - "{{ epgs) }}"
+        - "{{ epgs }}"
         - APName
     
     - name: epg-to-domain
