@@ -90,7 +90,9 @@
     - name: Print phone records
       debug:
         msg: "User {{ item.key }} is {{ item.value }} ({{ item.value }})"
-      loop: "{{ lookup('dict', epgs | json_query('APs[*]')) }}"
+      with_subelements: 
+        - "{{ epgs) }}"
+        - APName
     
     - name: epg-to-domain
       aci_epg_to_domain:
