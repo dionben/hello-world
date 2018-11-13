@@ -84,7 +84,8 @@
       debug: var=epgs
 
     - name: TASK 3 debug
-      set_fact: epgs : "{{ epgs | json_query('APs[*]')}}"
+      set_fact: 
+        epgs : "{{ epgs | json_query('APs[*]')}}"
       
     - name: Print phone records
       debug:
