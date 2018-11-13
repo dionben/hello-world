@@ -86,7 +86,7 @@
     - name: Print phone records
       debug:
         msg: "User {{ item.key }} is {{ item.value }} ({{ item.value }})"
-      loop: "{{ lookup('epgs', APs) }}"
+      loop: "{{ lookup('dict', epgs) }}"
     
     - name: epg-to-domain
       aci_epg_to_domain:
