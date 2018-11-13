@@ -74,7 +74,7 @@
         #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
         # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
         # epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }') }}"
-        epgs: "{{ prod_apps | json_query('current[0].fvTenant.{AATenantName: attributes.name, APs: children[*].fvAp.{ APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }}') }}"
+        epgs: "{{ prod_apps | json_query('current[0].fvTenant.{Name: attributes.name, APs: children[*].fvAp.{ APName: attributes.name, EPGNames: children[*].fvAEPg.attributes.name }}') }}"
 
     - name: test 2 test
       debug: var=apps
@@ -82,6 +82,11 @@
       
     - name: TASK 2 debug
       debug: var=epgs
+      
+    - name: Print phone records
+      debug:
+        msg: "User {{ item.key }} is {{ item.value }} ({{ item.value }})"
+      loop: "{{ lookup('epgs', APs) }}"
     
     - name: epg-to-domain
       aci_epg_to_domain:
