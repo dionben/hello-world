@@ -31,7 +31,7 @@
         ap: "{{ item.ap }}"
         epg: "{{ item.epg }}"
         domain: l2ext_banc_dom_datacenter
-        domain_type: phys
+        domain_type: l2dom
         state: absent
       delegate_to: localhost
       with_items: "{{ stuff }}"
@@ -46,7 +46,7 @@
         ap: "{{ item.ap }}"
         epg: "{{ item.epg }}"
         domain: l2ext_dmzfw_dom_datacenter
-        domain_type: phys
+        domain_type: l2dom
         state: present
       delegate_to: localhost
       with_items: "{{ stuff }}"
