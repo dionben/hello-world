@@ -33,6 +33,7 @@
         domain: l2ext_banc_dom_datacenter
         domain_type: l2dom
         deploy_immediacy: immediate
+        resolution_immediacy: immediate
         state: absent
       delegate_to: localhost
       with_items: "{{ stuff }}"
@@ -49,6 +50,7 @@
         domain: l2ext_dmzfw_dom_datacenter
         domain_type: l2dom
         deploy_immediacy: immediate
+        resolution_immediacy: immediate
         state: present
       delegate_to: localhost
       with_items: "{{ stuff }}"
