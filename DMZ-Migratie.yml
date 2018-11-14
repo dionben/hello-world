@@ -1,0 +1,216 @@
+---
+
+- name: PLAY 3
+  hosts: apic
+  connection: local
+  gather_facts: no
+  
+  tasks:
+  
+    - name: Regex
+      debug:
+        # msg: "{{ 'uni/tn-datacenter/ap-vlan-as-epg/epg-epg_vlan701/rspathAtt-[topology/pod-1/paths-120/extpaths-103/pathep-[eth1/13]]' | regex_replace('uni\\/tn-(?P<port>.*)\\/ap-.*', '\\g<port>') }}"
+        msg: "{{ 'uni/tn-datacenter/ap-vlan-as-epg/epg-epg_vlan701/rspathAtt-[topology/pod-1/paths-120/extpaths-103/pathep-[eth1/13]]' | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '{ tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> }') }}"
+  
+    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+      include_vars:
+        file: stuff.json
+        name: stuff
+
+    - name: TASK 2 - Create list of just APP names
+      set_fact:
+        stuff: "{{ stuff | json_query('ACI.DMZEPG[*]') }}"
+       
+    - name: test 2 test
+      debug: var=stuff
+
+      
+    - name: Print phone records
+      debug:
+        msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }} EPG:  {{ item.epg }} Encap-VLAN: {{ item.encap_id }} "
+      with_items: "{{ stuff }}"
+      
+    - name: TASK 1 - List of APP profiles for tenants
+      aci_ap:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        state: query
+      register: prod_ap
+
+    - name: TASK 2 - Create list of just APP names
+      set_fact:
+        apps: "{{ prod_ap | json_query('current[*].fvAp.attributes.name') }}"
+
+    - name: TASK 3a - List of AP profiles for tenants
+      aci_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: datacenter
+        state: query
+      register: prod_apps        
+      
+    # - name: TASK 3 - List of AP profiles for tenants
+      # aci_epg:
+        # hostname: "{{ inventory_hostname }}"
+        # username: "{{ aci_username }}"
+        # password: "{{ aci_password }}"
+        # validate_certs: no
+        # ap: "{{ item }}"
+        # tenant: datacenter
+        # state: query
+      # with_items: "{{ apps }}"
+      # register: prod_apps
+      
+    
+    - name: TASK 2 - Create list of just APP names
+      set_fact:
+        #apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
+        apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
+        #epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
+        #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
+        # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
+        # epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }') }}"
+        epgs: "{{ prod_apps | json_query('current[0].fvTenant.{Name: attributes.name, APs: children[*].fvAp.{ APName: attributes.name, EPGNames: children[*].fvAEPg.attributes.name }}') }}"
+
+    - name: test 2 test
+      debug: var=apps
+
+      
+    - name: TASK 2 debug
+      debug: var=epgs
+
+    # - name: TASK 3 debug
+      # set_fact: 
+        # epgs : "{{ epgs | json_query('APs[*]')}}"
+      
+    - name: Print phone records
+      debug:
+        msg: "User {{ item.0 }} is {{ item.1 }} "
+      with_subelements: 
+        - "{{ epgs }}"
+        - APName
+    
+    - name: epg-to-domain
+      aci_epg_to_domain:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        state: query
+      register: domains
+
+    - name: TASK 2 debug
+      debug: var=domains
+
+    - name: add aci_static_binding_to_epg leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_dmzfwp01_ports_1-ports-36_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: present
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+
+    - name: add aci_static_binding_to_epg leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: present
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+
+    - name: remove aci_static_binding_to_epg leaf102_105_switch_ports_1-ports-46_PolGrp
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: "{{ item.tenant }}"
+        ap: "{{ item.ap }}"
+        epg: "{{ item.epg }}"
+        leafs: [102, 105]
+        interface_type: vpc
+        interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
+        pod_id: 1
+        encap_id: "{{ item.encap_id }}"
+        deploy_immediacy: immediate
+        state: absent
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+            
+    # - name: aci_static_binding_to_epg
+      # aci_static_binding_to_epg:
+        # hostname: "{{ inventory_hostname }}"
+        # username: "{{ aci_username }}"
+        # password: "{{ aci_password }}"
+        # validate_certs: no
+        # tenant: datacenter
+        # ap: diontest2
+        # epg: prd-dmz
+        # leafs: [102, 105]
+        # interface_type: vpc
+        # interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
+        # pod_id: 1
+        # encap_id: 594
+        # deploy_immediacy: immediate
+        # state: absent
+      # delegate_to: localhost
+        
+    # - name: "Display all ports from cluster1"
+      # # debug:
+        # # var: item
+      # set_fact: item
+      # loop: "{{ prod_apps | json_query(server_name_cluster1_query) }}"
+      # vars:
+        # # server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.{name1: name, descr: desrc}"
+        # server_name_cluster1_query: "current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }"
+        
+            # # server_name_cluster1_query: "domain.server[?cluster=='cluster2'].{name: name, port: port}"
+    # - name: test 2 test
+      # debug: var=prod_apps
+      
+      
+      
+      
+    # - name: TASK 3 - Create list of just APP names
+      # set_fact:
+        # #ap_epg: "{{ ap_epg|default([]) + [ {'name': item.fvTenant.children.fvAp.attributes.name'), 'gender': item.fvTenant.children.fvAp.children.fvAEPg.attributes.name} ] }}"
+        # ap_epg: "{{ ap_epg | default([]) + [ { 'item': item } ] }}"
+      # with_items: "{{ prod_apps.current | map(attribute='name') | list  }}"
+
+    # - name: Print list of apps in tenant
+      # debug: var=ap_epg
+    
+   # - name: test1
+    #    test : "{{ test | default([]) + [ { 'item': item } ] }}"
+    #  with_items: 
+    #    - "{{ prod_apps.current | map(attribute='current') | map('from_json') | map(attribute='fvAp') | sum(start=[]) | map(attribute='fvAEPg') | list }}"
+    #  
+    #- name tesr
+    #  debug: var=test
+      
