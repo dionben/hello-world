@@ -128,7 +128,7 @@
       
     - name: verwerken paths-120/extpaths-103/pathep-
       set_fact:
-        pad: "{{ Paths | json_query('current[*].fvRsPath.Attattributes{dn: dn, tDn: tDn, encap: encap , mode: mode}') }}"
+        pad: "{{ Paths | json_query('current[*].fvRsPathAtt.attributes{dn: dn, tDn: tDn, encap: encap , mode: mode}') }}"
         
     - name: test
       debug: var=pad
