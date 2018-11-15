@@ -130,7 +130,7 @@
       set_fact:
         pad: "{{ Paths | json_query('current[*].fvRsPath.Attattributes{dn: dn, tDn: tDn, encap: encap , mode: mode}') }}"
         
-    -name: test
+    - name: test
       debug: var=pad
       
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
