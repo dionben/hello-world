@@ -134,6 +134,9 @@
     - name: test
       debug: var=pad
       
+    - name: test
+      debug: msg=msg="{{ (pad | selectattr('tDn','equalto','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
+      
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
       # aci_static_binding_to_epg:
         # hostname: "{{ inventory_hostname }}"
