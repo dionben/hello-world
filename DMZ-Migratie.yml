@@ -38,7 +38,7 @@
       delegate_to: localhost
       with_items: "{{ stuff }}"      
 
-      - name: Remove an existing physical domain l2ext_ban-cs_dom_datacenter to EPG binding
+    - name: Remove an existing physical domain l2ext_ban-cs_dom_datacenter to EPG binding
       aci_epg_to_domain:
         hostname: "{{ inventory_hostname }}"
         username: "{{ aci_username }}"
