@@ -32,7 +32,7 @@
         epg: "{{ item.epg }}"
         domain: l2ext_banc_dom_datacenter
         domain_type: l2dom
-        deploy_immediacy: lazy
+        deploy_immediacy: on-demand
         resolution_immediacy: immediate
         state: absent
       delegate_to: localhost
@@ -49,7 +49,7 @@
         epg: "{{ item.epg }}"
         domain: l2ext_dmzfw_dom_datacenter
         domain_type: l2dom
-        deploy_immediacy: lazy
+        deploy_immediacy: on-demand
         resolution_immediacy: immediate
         state: present
       delegate_to: localhost
