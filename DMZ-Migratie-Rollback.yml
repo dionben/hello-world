@@ -39,7 +39,7 @@
       delegate_to: localhost
       with_items: "{{ stuff }}"
       
-    - name: add an existing physical domain l2ext_banc_dom_datacenter to EPG binding
+    - name: add an existing physical domain l2ext_ban-cs_dom_datacenter to EPG binding
       aci_epg_to_domain:
         hostname: "{{ inventory_hostname }}"
         username: "{{ aci_username }}"
@@ -48,7 +48,7 @@
         tenant: "{{ item.tenant }}"
         ap: "{{ item.ap }}"
         epg: "{{ item.epg }}"
-        domain: l2ext_banc_dom_datacenter
+        domain: l2ext_ban-cs_dom_datacenter
         domain_type: l2dom
         deploy_immediacy: lazy
         resolution_immediacy: immediate
@@ -95,7 +95,7 @@
       delegate_to: localhost
       with_items: "{{ stuff }}"
 
-    - name: add aci_static_binding_to_epg leaf102_105_switch_ports_1-ports-46_PolGrp
+    - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
       aci_static_binding_to_epg:
         hostname: "{{ inventory_hostname }}"
         username: "{{ aci_username }}"
@@ -106,7 +106,7 @@
         epg: "{{ item.epg }}"
         leafs: [102, 105]
         interface_type: vpc
-        interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
+        interface: 'leaf102_105_ban-cs_ports_1-ports-44_PolGrp'
         pod_id: 1
         encap_id: "{{ item.encap_id }}"
         deploy_immediacy: immediate
