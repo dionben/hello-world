@@ -145,9 +145,9 @@
 
     - name: vul lijst
       set_fact:
-        lijst: "{{ lijst  + [{ 'tenant': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<tenant>'),  'ap': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<ap>'),  'epg': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<epg> '), encap: item.encap, encapID: item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>') }] }}"
+        lijst: "{{ lijst  + [{ 'tenant': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<tenant>'),  'ap': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<ap>'),  'epg': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<epg> ') }] }}"
         # lijst: "{{ lijst  + [{ 'tenant': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<tenant>'), 'encap':  item.encap | quote }] }}"
-         # tDn: item.tDn | quote,
+         # tDn: item.tDn | quote, , encap: item.encap, encapID: item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')
       with_items: "{{ pad }}"
       
     # - name: lijst filteren op vlan id
