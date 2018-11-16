@@ -27,7 +27,7 @@
       
     # - name: Print phone records
       # debug:
-        # msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }} EPG:  {{ item.epg }} encap_id: {{ item.encap_id }} "
+        # msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }} EPG:  {{ item.epg }} encapID: {{ item.encapID }} "
       # with_items: "{{ stuff }}"
       
     # - name: TASK 1 - List of APP profiles for tenants
@@ -119,7 +119,7 @@
         interface_type: vpc
         # interface: 'leaf102_105_ban-cs_ports_1-ports-44_PolGrp'
         # pod_id: 1
-        # encap_id: "{{ item.encap_id }}"
+        # encapID: "{{ item.encapID }}"
         # deploy_immediacy: immediate
         state: query
       delegate_to: localhost
@@ -145,18 +145,18 @@
 
     - name: vul lijst
       set_fact:
-        lijst: "{{ lijst }} + [ '{ {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', ' tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> ')}}, tDn: {{ item.tDn }}, encap:  {{ item.encap  }}, encap_id: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} }' ]"
+        lijst: "{{ lijst }} + [ '{ {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', ' tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> ')}}, tDn: {{ item.tDn }}, encap:  {{ item.encap  }}, encapID: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} }' ]"
       with_items: "{{ pad }}"
       
     # - name: lijst filteren op vlan id
       # set_fact: 
-        # lijst: "{{ (lijst | selectattr('encap_id','greaterthan(value, other)','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
+        # lijst: "{{ (lijst | selectattr('encapID','greaterthan(value, other)','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
       
 
     - name: test
       debug: var="{{ item }}"
       with_items: "{{ lijst }}"
-      # when: item.encap_id > 497
+      # when: item.encapID > 497
       
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
       # aci_static_binding_to_epg:
@@ -171,7 +171,7 @@
         # interface_type: vpc
         # interface: 'leaf102_105_ban-cs_ports_1-ports-44_PolGrp'
         # pod_id: 1
-        # encap_id: "{{ item.encap_id }}"
+        # encapID: "{{ item.encapID }}"
         # deploy_immediacy: immediate
         # state: query
       # delegate_to: localhost
@@ -190,7 +190,7 @@
         # interface_type: vpc
         # interface: 'leaf102_105_dmzfwp02_ports_1-ports-46_PolGrp'
         # pod_id: 1
-        # encap_id: "{{ item.encap_id }}"
+        # encapID: "{{ item.encapID }}"
         # deploy_immediacy: immediate
         # state: present
       # delegate_to: localhost
@@ -209,7 +209,7 @@
         # interface_type: vpc
         # interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
         # pod_id: 1
-        # encap_id: "{{ item.encap_id }}"
+        # encapID: "{{ item.encapID }}"
         # deploy_immediacy: immediate
         # state: absent
       # delegate_to: localhost
@@ -228,7 +228,7 @@
         # interface_type: vpc
         # interface: 'leaf102_105_switch_ports_1-ports-46_PolGrp'
         # pod_id: 1
-        # encap_id: 594
+        # encapID: 594
         # deploy_immediacy: immediate
         # state: absent
       # delegate_to: localhost
