@@ -145,17 +145,19 @@
 
     - name: vul lijst
       set_fact:
-        lijst: "{{ lijst }} + [ '{ {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', ' tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> ')}}, tDn: {{ item.tDn }}, encap:  {{ item.encap  }}, Encap-VLAN: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>') | int }} }' ]"
+        lijst: "{{ lijst }} + [ '{ {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', ' tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> ')}}, tDn: {{ item.tDn }}, encap:  {{ item.encap  }}, Encap-VLAN: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} }' ]"
       with_items: "{{ pad }}"
       
     # - name: lijst filteren op vlan id
       # set_fact: 
-        # lijst: "{{ (lijst | selectattr('tDn','equalto','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
+        # lijst: "{{ (lijst | selectattr('Encap-VLAN','greaterthan(value, other)','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
       
 
     - name: test
-      debug: var=lijst
-           
+      debug: var= {{item }}
+      with_items : {{ lijst }}
+      when: item.Encap-VLAN > 497
+      
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
       # aci_static_binding_to_epg:
         # hostname: "{{ inventory_hostname }}"
