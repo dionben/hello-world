@@ -154,7 +154,7 @@
       
 
     - name: test
-      debug: var= lijst
+      debug: var=pad
       # "{{ item }}"
       # with_items : "{{ lijst }}"
       # when: item.encap_id > 497
