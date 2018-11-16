@@ -145,7 +145,7 @@
 
     - name: vul lijst
       set_fact:
-        lijst: "{{ lijst }} + [ '{ dn: {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '{ tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> }')}}, tDn: {{ item.tDn }}, encap:  {{ item.encap  }}, Encap-VLAN: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} }' ]"
+        lijst: "{{ lijst }} + [ '{ {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', ' tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> ')}}, tDn: {{ item.tDn }}, encap:  {{ item.encap  }}, Encap-VLAN: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} }' ]"
       with_items: "{{ pad }}"
       
 
