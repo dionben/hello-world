@@ -164,6 +164,9 @@
       with_items: "{{ epgs }}"
       when: item.encapID | int  >= 498 and item.encapID | int < 600
       
+    - name: test
+      debug: var=epgs
+      
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
       # aci_static_binding_to_epg:
         # hostname: "{{ inventory_hostname }}"
