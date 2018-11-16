@@ -129,11 +129,16 @@
     - name: verwerken paths
       set_fact:
         # pad: "{{ Paths | json_query('current[*].fvRsPathAtt.attributes.{dn: dn, tDn: tDn, encap: encap | regex_replace('vlan-(?P<vlanid>.*  )', '\\g<vlanid>') , mode: mode}') }}"
-        pad: "{{ Paths | json_query('current[*].fvRsPathAtt.attributes.{dn: dn, tDn: tDn, encap: encap | regex_replace('vlan-(.*)','\\1') , mode: mode}') }}"
+        pad: "{{ Paths | json_query('current[*].fvRsPathAtt.attributes.{dn: dn, tDn: tDn, encap: encap , mode: mode}') }}"
         # pad: "{{ Paths | json_query('current[*].fvRsPathAtt.attributes.dn') }}"
         
     - name: test
       debug: var=pad
+      
+    - name: Print phone records
+      debug:
+        msg: "dn: {{ item.dn }} tDn: {{ item.tDn }} encap:  {{ item.encap  }} Encap-VLAN: {{ item.encap | regex_replace('vlan-(.*'),'\\1') }} "
+      with_items: "{{ pad }}"
       
     - name: test
       debug: msg=msg="{{ (pad | selectattr('tDn','equalto','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
