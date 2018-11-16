@@ -145,7 +145,7 @@
 
     - name: vul lijst
       set_fact:
-        lijst: "{{ lijst  + [{ 'tenant': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<tenant>'),  'ap': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<ap>'),  'epg': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<epg> '), 'tDn': item.tDn | quote, 'encap': item.encap, 'encapID': item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>') }] }}"
+        lijst: "{{ lijst  + [{ 'tenant': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<tenant>'),  'ap': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<ap>'),  'epg': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<epg> '), 'tDn': item.tDn , 'encap': item.encap, 'encapID': item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>') }] }}"
         # lijst: "{{ lijst  + [{ 'tenant': item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '\\g<tenant>'), 'encap':  item.encap | quote }] }}"
          # tDn: item.tDn | quote, , encap: item.encap, encapID: item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')
       with_items: "{{ pad }}"
@@ -158,7 +158,7 @@
     - name: test
       debug: var="{{ item }}"
       with_items: "{{ lijst }}"
-      # when: item.encapID < 498
+      when: item.encapID | int  < 498
       
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
       # aci_static_binding_to_epg:
