@@ -65,6 +65,6 @@
       debug: var=epgs
       
     - name: test
-      debug: var=epgs | length
+      debug: var="{{ epgs | length }}"
       
       
