@@ -140,8 +140,8 @@
       # debug: var=pad
       
     - name: Print phone records
-      debug:
-        msg: "dn: {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '{ tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> }')}} tDn: {{ item.tDn }} encap:  {{ item.encap  }} Encap-VLAN: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} "
+      set_fact:
+        lijst: "dn: {{ item.dn | regex_replace('uni\\/tn-(?P<tenant>.*)\\/ap-(?P<ap>.*)\\/epg-(?P<epg>.*)\\/rs.*', '{ tenant: \\g<tenant>, ap: \\g<ap>, epg: \\g<epg> }')}} tDn: {{ item.tDn }} encap:  {{ item.encap  }} Encap-VLAN: {{ item.encap | regex_replace('vlan-(?P<vlan>.*)', '\\g<vlan>')}} "
       with_items: "{{ pad }}"
      
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
