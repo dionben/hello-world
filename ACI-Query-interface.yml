@@ -160,7 +160,7 @@
         
     - name: Filter op dmz
       set_fact: 
-        epgs: "{{ epgs + [ item ] }}"
+        epgs: "{{ epgs +  item }}"
       with_items: "{{ epgs }}"
       when: item.encapID | int  >= 498 and item.encapID | int < 600
       
