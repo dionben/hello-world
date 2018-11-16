@@ -154,10 +154,14 @@
       # set_fact: 
         # lijst: "{{ (lijst | selectattr('encapID','greaterthan(value, other)','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
       
-
-    - name: test
-      debug: var="{{ item }}"
-      with_items: "{{ lijst }}"
+    - name: maak epgs met vlan id 
+      set_fact: 
+        epgs: []
+        
+    - name: Filter op dmz
+      set_fact: 
+        epgs: "{{ epgs + [ item ] }}"
+      with_items: "{{ epgs }}"
       when: item.encapID | int  >= 498 and item.encapID | int < 600
       
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
