@@ -136,8 +136,8 @@
       set_fact: 
         pad: "{{ (pad | selectattr('tDn','equalto','topology/pod-1/protpaths-102-105/pathep-[leaf102_105_ban-cs_ports_1-ports-44_PolGrp]') | list ) }}"
          
-    # - name: test
-      # debug: var=pad
+    - name: test
+      debug: var=pad
       
     - name: Print phone records
       set_fact:
