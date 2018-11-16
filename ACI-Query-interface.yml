@@ -155,7 +155,7 @@
 
     - name: test
       debug: var= {{item }}
-      with_items : {{ lijst }}
+      with_items : "{{ lijst }}"
       when: item.Encap-VLAN > 497
       
     # - name: add aci_static_binding_to_epg leaf102_105_ban-cs_ports_1-ports-44_PolGrp
