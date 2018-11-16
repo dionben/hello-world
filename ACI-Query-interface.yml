@@ -30,28 +30,28 @@
         msg: "Tennant: {{ item.tenant }} AP: {{ item.ap }} EPG:  {{ item.epg }} Encap-VLAN: {{ item.encap_id }} "
       with_items: "{{ stuff }}"
       
-    - name: TASK 1 - List of APP profiles for tenants
-      aci_ap:
-        hostname: "{{ inventory_hostname }}"
-        username: "{{ aci_username }}"
-        password: "{{ aci_password }}"
-        validate_certs: no
-        state: query
-      register: prod_ap
+    # - name: TASK 1 - List of APP profiles for tenants
+      # aci_ap:
+        # hostname: "{{ inventory_hostname }}"
+        # username: "{{ aci_username }}"
+        # password: "{{ aci_password }}"
+        # validate_certs: no
+        # state: query
+      # register: prod_ap
 
-    - name: TASK 2 - Create list of just APP names
-      set_fact:
-        apps: "{{ prod_ap | json_query('current[*].fvAp.attributes.name') }}"
+    # - name: TASK 2 - Create list of just APP names
+      # set_fact:
+        # apps: "{{ prod_ap | json_query('current[*].fvAp.attributes.name') }}"
 
-    - name: TASK 3a - List of AP profiles for tenants
-      aci_epg:
-        hostname: "{{ inventory_hostname }}"
-        username: "{{ aci_username }}"
-        password: "{{ aci_password }}"
-        validate_certs: no
-        tenant: datacenter
-        state: query
-      register: prod_apps        
+    # - name: TASK 3a - List of AP profiles for tenants
+      # aci_epg:
+        # hostname: "{{ inventory_hostname }}"
+        # username: "{{ aci_username }}"
+        # password: "{{ aci_password }}"
+        # validate_certs: no
+        # tenant: datacenter
+        # state: query
+      # register: prod_apps        
       
     # - name: TASK 3 - List of AP profiles for tenants
       # aci_epg:
@@ -66,22 +66,22 @@
       # register: prod_apps
       
     
-    - name: TASK 2 - Create list of just APP names
-      set_fact:
-        #apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
-        apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
-        #epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
-        #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
-        # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
-        # epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }') }}"
-        epgs: "{{ prod_apps | json_query('current[0].fvTenant.{Name: attributes.name, APs: children[*].fvAp.{ APName: attributes.name, EPGNames: children[*].fvAEPg.attributes.name }}') }}"
+    # - name: TASK 2 - Create list of just APP names
+      # set_fact:
+        # #apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
+        # apps: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.attributes.name') }}"
+        # #epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
+        # #epgs: "{{ prod_apps | json_query('current[0].fvAp.children[*].fvAEPg.attributes.name') }}"
+        # # epgs: "{{prod_apps | json_query('result.current[0].fvTenant.children[*].fvAp.children[*].fvAEPg.attributes.name') }}"
+        # # epgs: "{{ prod_apps | json_query('current[0].fvTenant.children[*].fvAp.{APName: attributes.name, EPGName: children[*].fvAEPg.attributes.name }') }}"
+        # epgs: "{{ prod_apps | json_query('current[0].fvTenant.{Name: attributes.name, APs: children[*].fvAp.{ APName: attributes.name, EPGNames: children[*].fvAEPg.attributes.name }}') }}"
 
-    - name: test 2 test
-      debug: var=apps
+    # - name: test 2 test
+      # debug: var=apps
 
       
-    - name: TASK 2 debug
-      debug: var=epgs
+    # - name: TASK 2 debug
+      # debug: var=epgs
 
     # - name: TASK 3 debug
       # set_fact: 
@@ -112,13 +112,13 @@
         username: "{{ aci_username }}"
         password: "{{ aci_password }}"
         validate_certs: no
-        tenant: 'datacenter'
-        ap: "mpog"
-        epg: "prd-dmz"
-        leafs: [102, 105]
-        interface_type: vpc
-        interface: 'leaf102_105_ban-cs_ports_1-ports-44_PolGrp'
-        pod_id: 1
+        # tenant: 'datacenter'
+        # ap: "mpog"
+        # epg: "prd-dmz"
+        # leafs: [102, 105]
+        # interface_type: vpc
+        # interface: 'leaf102_105_ban-cs_ports_1-ports-44_PolGrp'
+        # pod_id: 1
         # encap_id: "{{ item.encap_id }}"
         # deploy_immediacy: immediate
         state: query
