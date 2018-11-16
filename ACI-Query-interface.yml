@@ -115,8 +115,8 @@
         # tenant: 'datacenter'
         # ap: "mpog"
         # epg: "prd-dmz"
-        # leafs: [102, 105]
-        # interface_type: vpc
+        leafs: [102, 105]
+        interface_type: vpc
         # interface: 'leaf102_105_ban-cs_ports_1-ports-44_PolGrp'
         # pod_id: 1
         # encap_id: "{{ item.encap_id }}"
