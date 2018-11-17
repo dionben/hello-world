@@ -55,11 +55,12 @@
       set_fact: 
         epgs: []
         
-    - name: Filter op dmz
+    - name: Filter op dmz alles tussen 498 en 599 en niet CMBi (509) of F5 (526)
       set_fact: 
         epgs: "{{ epgs + [ item ] }}"
       with_items: "{{ lijst }}"
-      when: item.encapID | int  >= 498 and item.encapID | int < 600
+      when: item.encapID | int  >= 498 and item.encapID | int < 600 and item.encapID | int != 526 and item.encapID | int != 509
+      
       
     - name: test
       debug: var=epgs
