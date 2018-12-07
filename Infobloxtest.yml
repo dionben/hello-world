@@ -18,7 +18,6 @@
    - set_fact:
         test1: "{{test| int}}"
    - debug: var={{ test1 | type_debug }}
-   - debug: var=nios_provider
    
    - name: Gather info
      set_fact:
