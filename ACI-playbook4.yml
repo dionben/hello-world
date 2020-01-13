@@ -1,0 +1,61 @@
+---
+
+- name: PLAY 4
+  hosts: apic
+  connection: local
+  gather_facts: no
+  
+  tasks:
+    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+      include_vars:
+        file: Interfaces.json
+        name: stuff
+
+    - name: TASK 2 - Create list of just APP names
+      set_fact:
+        stuff: "{{ stuff | json_query('ACI.Interfaces[*]') }}"
+       
+    - name: test 2 test
+      debug: var=stuff
+      
+    - name: remove aci_static_bindings
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: datacenter
+        ap: vlan-as-epg
+        epg: epg_vlan43
+        leafs: "{{ item.leafs }}"
+        interface_type: "{{ item.interface_type }}"
+        extpaths: "{{ item.extpaths }}"
+        interface: "{{ item.interface }}"
+        pod_id: 1
+        encap_id: 4
+        interface_mode: access
+        deploy_immediacy: immediate
+        state: absent
+      delegate_to: localhost
+      with_items: "{{ stuff }}"
+            
+    - name: add aci_static_bindings
+      aci_static_binding_to_epg:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ aci_username }}"
+        password: "{{ aci_password }}"
+        validate_certs: no
+        tenant: datacenter
+        ap: vlan-as-epg
+        epg: epg_vlan43
+        leafs: "{{ item.leafs }}"
+        interface_type: "{{ item.interface_type }}"
+        extpaths: "{{ item.extpaths }}"
+        interface: "{{ item.interface }}"
+        pod_id: 1
+        encap_id: 871
+        interface_mode: access
+        deploy_immediacy: immediate
+        state: present
+      delegate_to: localhost
+      with_items: "{{ stuff }}"

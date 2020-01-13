@@ -1,0 +1,24 @@
+"ACI": {
+	"Interfaces": [{
+		leafs: 119,
+		interface_type: switch_port,
+		interface:1/32,
+	}
+	,{
+		leafs: 120,
+		interface_type: switch_port,
+		interface:1/32,
+	},
+	{
+		leafs: 119,
+		interface_type: fex,
+		extpaths: 102,
+		interface:1/2,
+	},
+	{
+		leafs: 129,
+		interface_type: fex,
+		extpaths: 102,
+		interface:1/2,
+	}]
+}

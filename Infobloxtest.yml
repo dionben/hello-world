@@ -1,6 +1,6 @@
 ---
 
-- hosts: Infoblox
+- hosts: masterblox.man.umcn.nl
   vars:
     cidr: "{{ var_cidr | regex_replace('-.*$','') }}"
     num: "{{ var_num }}"
