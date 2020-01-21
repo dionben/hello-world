@@ -1,0 +1,20 @@
+vars:
+  interface:
+    name: "{{ item[0].name }}"
+    access_vlan: "{{ item[2].match[0] }}"
+    voice_vlan: "{{ item[3].match[0] }}"
+    native_vlan: "{{ item[4].match[0] }}"
+    mode: "{{ item[1].match[0] }}"
+
+
+keys:
+  interfaces:
+    value: "{{ interface }}"
+    start_block: "^interface.+$"
+    end_block: "^!$"
+    items:
+      - "^interface (?P<name>.+)"
+      - "\\s+switchport mode (.+)"
+      - "\\s+switchport access vlan (\\d.+)"
+      - "\\s+switchport voice vlan (\\d+)"
+      - "\\s+switchport trunk native vlan (\\d+)"
