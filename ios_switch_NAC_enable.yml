@@ -1,0 +1,215 @@
+- name: "Demonstrate connecting to switches" 
+  hosts: ios
+  vars:
+     connection: network_cli
+     host_key_auto_add: yes
+  gather_facts: no
+  
+
+  tasks:
+    - name: Gather facts about Switch
+      ios_facts:
+        gather_subset: "all"
+      register: ios_facts
+
+
+    - name: Change facts into useable objects
+      set_fact:
+        facts_interfaces: "{{ ios_facts | json_query('ansible_facts.ansible_net_interfaces') }} "
+        facts_ios_config: "{{ ios_facts | json_query('ansible_facts.ansible_net_config') }} "    
+        facts_neigbors: "{{ ios_facts | json_query('ansible_facts.ansible_net_neighbors') }}"
+        # Use parse_cli to get interfaces with mode en vlans (access, native and voice)
+        parsed_config_interfaces: "{{ ios_facts | json_query('ansible_facts.ansible_net_config') | parse_cli('interface_config_parser.yml')}}"
+        NonNACVLANs: [1830, 1850, 1827, 1831]
+
+
+    - name: Parse some variables...BAN_neighbors  & NAC_Ports....(jinja)
+      set_fact:
+        # Find uplinking BAN Switch based on Neighbors
+        BAN_neighbors: | 
+                            {% set res = [] -%}
+                            {% set BAN = '' -%}
+                            {% for interface in facts_neigbors.keys() -%}
+                                {% if (facts_neigbors[interface][0].host is not none) and (facts_neigbors[interface][0].host[:3]=='BAN') -%} 
+                                {% set BAN = facts_neigbors[interface][0].host | regex_replace('BAN-(.)-.+','\\1') -%}
+                                    {% set  ignored = res.extend([{'Local_port': interface, 'Neighbor': facts_neigbors[interface][0].host | regex_replace('(\()\w+(\))',''), 'Remote_port': facts_neigbors[interface][0].port, 'BAN': facts_neigbors[interface][0].host | regex_replace('BAN-(.)-.+','\\1') }]) -%}
+                                {% endif -%} 
+                            {%- endfor %}
+                            {{ res }}
+        # Get access ports and access vlan (defaulting to 1) and filter ports with VLANs in NonNACVLANs
+        NAC_Ports: |
+                  {% set res = [] -%}
+                  {% for interface in parsed_config_interfaces -%}
+                        {% if interface.mode == 'access' -%}
+                            {% if interface.access_vlan is not none -%}
+                                {% if interface.access_vlan not in NonNACVLANs -%}
+                                    {% set ignored = res.extend([{ 'name': interface.name, 'vlan': interface.access_vlan }]) -%}
+                                {% endif -%}
+                            {% else -%}
+                                {% set ignored = res.extend([{ 'name': interface.name, 'vlan': 1 }]) -%}
+                            {% endif -%}
+                        {% endif -%}
+                  {%- endfor %}
+                  {{ res }}
+
+
+    - debug: msg="{{ NAC_Ports }}"
+  
+    - name: Find neighboring BAN
+      set_fact: 
+        BAN: "{% if BAN_neighbors | json_query('[*].BAN') | unique | length == 1 -%}{% set ignored = BAN_neighbors | json_query('[*].BAN') | unique  %}{{ ignored[0] }}{% else -%}{{ false }}{% endif -%}"
+        IP: "{{ ios_facts.ansible_facts.ansible_net_all_ipv4_addresses[0]}}"
+        
+    - name: Find neighboring BAN (Z) based on IP. Errors expected and ignored by design
+      set_fact:         
+        BANip: "BAN-Z"
+      ignore_errors: yes
+      when: IP | ipsubnet('10.0.100.0/23') is defined 
+        
+    - name: Find neighboring BAN (CS) based on IP. Errors expected and ignored by design
+      set_fact:         
+        BANip: "BAN-CS"
+      ignore_errors: yes
+      when: IP | ipsubnet('10.0.96.0/23') is defined
+        
+    - name: Find neighboring BAN (W) based on IP. Errors expected and ignored by design
+      set_fact:         
+        BANip: "BAN-W"
+      ignore_errors: yes
+      when: IP | ipsubnet('10.0.98.0/23') is defined 
+        
+    - name: Find neighboring BAN (N) based on IP. Errors expected and ignored by design
+      set_fact:         
+        BANip: "BAN-N"
+      ignore_errors: yes
+      when: IP | ipsubnet('10.0.102.0/23') is defined
+        
+    - name: Find neighboring BAN (R) based on IP. Errors expected and ignored by design
+      set_fact:         
+        BANip: "BAN-R"
+      ignore_errors: yes
+      when: IP | ipsubnet('10.0.106.0/23') is defined
+      
+    # - name: Switch part of 
+        # block:
+            # - debug: msg = "Niet in BAN-Z"
+            # - set_fact:
+                # IP: "{{ ios_facts.ansible_facts.ansible_net_all_ipv4_addresses[0] | ipsubnet('10.0.100.0/23') }}"
+                # BANip: "Z"
+        # rescue:
+            # - debug: msg = "Niet in BAN-Z"
+            # - set_fact:
+                # BANip: "Niets"
+        # |
+                # {% if (ios_facts.ansible_facts.ansible_net_all_ipv4_addresses[0] | ipaddr ) in ipsubnet('10.0.100.0/23') -%}
+                    # "BAN-Z"
+                # {% endif -%}
+        
+        # "{{ ios_facts.ansible_facts.ansible_net_all_ipv4_addresses[0] }}"
+
+    - debug: var=BAN
+    - debug: var=BANip
+    - debug: var=IP
+  
+    - fail:
+        msg: Test rest ignored
+    - name: Change some more facts into useable objects
+      set_fact:
+        facts_ios_config: "{{ facts_ios_config.split('\n') }} "
+    
+    # - name: "Convert to dict list"
+      # set_fact:
+        # NosFactDict: "{{ NosFactDict|default([]) + [ parameter | default({}) | combine ( { item.split('=')[0]: item.split('=')[1] } ) ] }}"
+      # with_items: "{{ facts_ios_config }}"
+    
+    
+    - local_action: copy content={{ facts_interfaces }} dest=facts_interfaces.json
+    - local_action: copy content={{ NAC_Ports }} dest=NAC_Ports.json
+    - local_action: copy content={{ facts_ios_config }} dest={{ ios_facts | json_query('ansible_facts.ansible_net_hostname') }}_facts_ios_config.json
+    
+    # - debug: msg=|
+                  # {% set res = [] -%}
+                  # {% for key in facts_interfaces.keys() -%}
+                      # {% set ignored = res.extend([{ 'Server' : key, 'WAR' :facts_interfaces[key]}]) -%}
+                  # {%- endfor %}
+                  # "{{ res }}
+    - name: Change facts into useable objects
+      set_fact:
+        config_items: |
+                  {% set res = [] -%}
+                  {% for line in facts_ios_config -%}
+                        {% if line.startswith('interface') -%}
+                  {%- endfor %}
+                  {{ res }}
+
+
+    
+    - name: Change facts into useable objects
+      set_fact:
+        interfaces_items: |
+                  {% set res = [] -%}
+                  {% for key in facts_interfaces.keys() -%}
+                      {% if facts_interfaces[key].mediatype is not none -%}
+                        {% if 'Ethernet' in facts_interfaces[key].type.split() -%}
+                           {% set ignored = res.extend([key]) -%}
+                           {# {% set ignored = res.extend([{ 'Interface' : key, 'type':facts_interfaces[key].type, 'mediatype':facts_interfaces[key].mediatype}] ) -%} -#}
+                        {% endif -%}
+                      {% endif -%}
+                  {%- endfor %}
+                  {{ res }}
+        
+        
+                          # {% set res = [] -%}
+                  # {% for key in facts_interfaces.keys() -%}
+                      # {% if facts_interfaces[key].mediatype is not none -%}
+                        # {% if 'Ethernet' in facts_interfaces[key].mediatype -%}
+                           # {% set ignored = res.extend([{ 'Interface' : key, 'facts' :facts_interfaces[key], 'type':facts_interfaces[key].type, 'mediatype':facts_interfaces[key].mediatype}] ) -%}
+                        # {% endif -%}
+                      # {% endif -%}
+                  # {%- endfor %}
+                  # {{ res }}
+    - debug: msg="{{interfaces_items | sort }}"
+    
+        
+    - fail:
+        msg: Test rest ignored
+        
+    # ansible_net_config
+    - name: Get interfaces from facts
+      set_fact: 
+        interfaces_item: "{{ { 'Interface': item.key , 'Type': item.value.type } }}"
+      with_dict: "{{ ios_facts | json_query('ansible_facts.ansible_net_interfaces') }}"
+      register: interfaces_result
+      # when: "{{ item.key |contains(`Gigabit`) == 'Gigabit' }}"
+      when: item.value.mediatype!=none and item.value.type!='EtherChannel' and item.value.type!='EtherSVI'
+      
+    - debug: var=interfaces_result
+      
+    - name: make a list of the interfaces
+      set_fact: interfaces="{{ interfaces_result.results | json_query('[?failed!=false]') | map(attribute='[0]ansible_facts.interfaces_item') |  list }}"
+
+    - debug: var=interfaces
+    
+    # - name: Remove the serialnumber from the interfaces
+      # set_fact: interfaces="{{ interfaces | regex_replace('(\()\w+(\))','') }}"
+    
+  #  - debug: var="{{ interfaces | string }}"
+    
+    # - name: "loop through list"
+      # debug:
+        # msg: "An item: {{ item }}  = {{ interfaces_with_neighbors | json_query('ansible_facts.ansible_net_neighbors.item') }}"
+      # with_items: "{{ interfaces_with_neighbors }}"
+      
+    - name: loop
+      # ios_command:
+            # commands: 
+              # -{ show run "{{item.Interface }}" }
+      debug: msg= "{{ item }}"
+      with_list: "{{ interfaces }}"
+
+    # - name: print neighbors
+      # debug: var=neighbors
+
+    # - name: Display some facts
+      # debug:
+        # msg: "The hostname is {{ ansible_net_hostname }} and the OS is {{ ansible_net_version }} With neighbors {{ interfaces }}"
